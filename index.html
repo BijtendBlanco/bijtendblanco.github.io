@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bijtend Blanco</title>
+        <style>
+
+            @keyframes fadein {
+                from {
+                  filter: blur(12px) contrast(10);
+                  text-shadow: 7px 27px 12px red, -7px -5px 8px cyan;
+                }
+                
+                to {
+                  filter: blur(2px) contrast(2);
+                  filter: none;
+                  text-shadow: none;
+                }
+            }
+
+            * {
+                margin: 0;
+            }
+            
+            body {
+                font-family: Helvetica, Arial, sans-serif;
+                display: grid;
+                grid-template-columns: 1fr 2fr 2fr 1fr;
+                grid-template-rows: 1fr 2fr 2fr 1fr;
+                gap: 1px;
+                min-height: 100dvh;
+            }
+
+            .splash {
+                grid-column: 3;
+                grid-row: 3;
+            }
+
+            h1 {
+                contain: paint; 
+                text-transform: uppercase;
+                font: 400 4rem/0.85 Helvetica, Arial, sans-serif;
+                padding: 10px;
+                background: white;
+                filter: blur(10px) contrast(50);
+                animation: fadein 12.5s cubic-bezier(0, 1, 1, 1) 125ms 1 normal forwards;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="splash">
+            <h1>
+                Bijtend<br>Blanco
+            </h1>
+        </div>
+    </body>
+</html>
