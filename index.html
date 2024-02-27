@@ -39,21 +39,24 @@
                 grid-row: 3;
             }
 
-            h1 {
+            .logo {
                 contain: paint; 
-                text-transform: uppercase;
                 font: 400 4rem/0.85 Helvetica, Arial, sans-serif;
                 padding: 10px;
                 background: white;
                 filter: blur(10px) contrast(50);
                 animation: fadein 12.5s cubic-bezier(0, 1, 1, 1) 125ms 1 normal forwards;
             }
+
+            .logo > span {
+                letter-spacing: -0.6px;
+            }
         </style>
     </head>
     <body>
         <div class="splash">
-            <h1>
-                Bijtend<br>Blanco
+            <h1 class="logo">
+                <span>BIJTEND</span><br>BLANCØ
             </h1>
         </div>
     </body>
