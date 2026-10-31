@@ -6,58 +6,94 @@
         <meta name="description" content="Bijtend Blanco. Web consultancy firm.">
         <meta name="keywords" content="Web development, Web design, Consultancy">
         <meta name="author" content="Peter Briers">
+        <meta name="color-scheme" content="only light">
+        <meta name="theme-color" content="#ffffff">
         <title>Bijtend Blanco</title>
         <style>
-            @keyframes fadein {
-                from {
-                  filter: blur(12px) contrast(10);
-                  text-shadow: 7px 27px 12px red, -7px -5px 8px cyan;
-                }
-                
-                to {
-                  filter: blur(2px) contrast(2);
-                  filter: none;
-                  text-shadow: none;
-                }
+            /*
+             * Three layers on one shared timing:
+             *  - body::before burns: a flat full-page white layer whose
+             *    contrast() pushes white past 1.0, which HDR screens show
+             *    brighter than normal white. Nothing is drawn inside it, so
+             *    it stays cheap at full screen.
+             *  - .splash melts: a small white box around the logo with blur()
+             *    and the same contrast(), thresholding the blurred letters
+             *    into goo. Its white burns exactly as bright as the page
+             *    behind it, so the box never shows.
+             *  - .logo adds the red and cyan ghosts.
+             * Fill is backwards only, so once done no filter lingers.
+             */
+            :root {
+                --reveal: 12.5s cubic-bezier(0, 1, 1, 1) 125ms backwards;
+            }
+
+            @keyframes burn {
+                from { filter: contrast(10); }
+                to   { filter: none; }
+            }
+
+            @keyframes melt {
+                from { filter: blur(12px) contrast(10); }
+                to   { filter: none; }
+            }
+
+            @keyframes ghost {
+                from { text-shadow: 7px 27px 12px red, -7px -5px 8px cyan; }
+                to   { text-shadow: none; }
             }
 
             * {
                 margin: 0;
             }
-            
+
+            html {
+                background: white;
+            }
+
             body {
-                font-family: Helvetica, Arial, sans-serif;
                 display: grid;
-                grid-template-columns: 1fr 2fr 2fr 1fr;
-                grid-template-rows: 1fr 2fr 2fr 1fr;
-                gap: 1px;
+                grid-template: 1fr 2fr 2fr 1fr / 1fr 2fr 2fr 1fr;
                 min-height: 100dvh;
             }
 
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                z-index: -1;
+                background: white;
+                animation: burn var(--reveal);
+            }
+
             .splash {
-                grid-column: 3;
-                grid-row: 3;
+                grid-area: 3 / 3;
+                place-self: start;
+                /* Room for the ghosts and blur, pulled back so the text sits where it always did. */
+                padding: 40px;
+                margin: -30px;
+                background: white;
+                animation: melt var(--reveal);
             }
 
             .logo {
-                contain: paint; 
                 font: 400 4rem/0.85 Helvetica, Arial, sans-serif;
-                padding: 10px;
-                background: white;
-                filter: blur(10px) contrast(50);
-                animation: fadein 12.5s cubic-bezier(0, 1, 1, 1) 125ms 1 normal forwards;
+                animation: ghost var(--reveal);
             }
 
             .logo > span {
                 letter-spacing: -0.6px;
             }
+
+            @media (prefers-reduced-motion: reduce) {
+                body::before, .splash, .logo {
+                    animation: none;
+                }
+            }
         </style>
     </head>
     <body>
         <div class="splash">
-            <h1 class="logo">
-                <span>BIJTEND</span><br>BLANCØ
-            </h1>
+            <h1 class="logo"><span>BIJTEND</span><br>BLANCØ</h1>
         </div>
     </body>
 </html>
